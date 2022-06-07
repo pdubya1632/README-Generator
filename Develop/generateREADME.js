@@ -1,163 +1,185 @@
-// GIVEN a command-line application that accepts user input
-// WHEN I am prompted for information about my application repository
-// THEN a high-quality, professional README.md is generated with the title of my project and sections entitled Description, Table of Contents, Installation, Usage, License, Contributing, Tests, and Questions
-// WHEN I enter my project title
-// THEN this is displayed as the title of the README
-// WHEN I enter a description, installation instructions, usage information, contribution guidelines, and test instructions
-// THEN this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-// WHEN I choose a license for my application from a list of options
-// THEN a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
-// WHEN I enter my GitHub username
-// THEN this is added to the section of the README entitled Questions, with a link to my GitHub profile
-// WHEN I enter my email address
-// THEN this is added to the section of the README entitled Questions, with instructions on how to reach me with additional questions
-// WHEN I click on the links in the Table of Contents
-// THEN I am taken to the corresponding section of the README
+const { prompt } = require("enquirer"); // https://github.com/enquirer/enquirer
+const yosay = require("yosay"); // https://github.com/yeoman/yosay
+const {writeFile } = require("fs");
+// const toc = require("markdown-toc"); // https://github.com/jonschlinkert/markdown-toc
 
-// Include packages needed for this application
-const { prompt } = require('enquirer');
-const { writeFile } = require('fs');
-const yosay = require('yosay');
+// ({
+//   title,
+//   license,
+//   description,
+//   installation,
+//   usage,
+//   contribute,
+//   tests,
+//   attribution,
+//   tutorial,
+//   githubUser,
+//   email
+// })
 
 const generateReadme = ({
-  title,
-  motivation,
-  why,
-  solve,
-  learn,
-  install,
-  usage,
-  attribution,
-  tutorial,
-}) =>
+    title,
+    license,
+    description,
+    installation,
+    usage,
+    contribute,
+    test,
+    attribution,
+    tutorial,
+    contact
+  }) =>
   `
 ## ${title}
+${license}
+
+[Description](#description)
+[Installation](#installation)
+[Usage](#usage)
+[Contributing](#contribution)
+[Tests](#tests)
+[Resources & Inspiration](#resources-inspiration)
+[Question](#questions)
 
 # Description 
-${motivation}
-${why}
-${solve}
-${learn}
+${description.motivation}
+${description.why}
+${description.solve}
+${description.learn}
 
 # Installation
-${install}
+${installation}
 
 # Usage
 ${usage}
 
 # Contributing
+${contribute}
 
 # Tests
+${test}
 
 # Resources & Inspiration
 ${attribution}
 ${tutorial}
 
+# Questions
+My github username is ${contact.githubUser} and my email is ${contact.email} if you want to reach out.
 `;
 
 // Create a function to initialize app
 const intro = () => {
   prompt({
-    type: 'toggle',
-    name: 'continue',
-    header: yosay('Hello, friend, and welcome to the magical README Generator!'),
-    message: 'Are you ready to enter all details about your awesome project?',
-    enabled: 'Yep',
-    disabled: 'Nope',
+    type: "toggle",
+    name: "continue",
+    header: yosay(
+      "Hello, friend, and welcome to the magical README Generator!"
+    ),
+    message: "Are you ready to enter all details about your awesome project?",
+    enabled: "Yep",
+    disabled: "Nope",
   })
-  .then((answer) => {
-    if ((answer = true)) {
-      gatherInput();
-    }
-  })
-  .catch(console.error);
+    .then((answer) => {
+      if(answer.continue === false) {
+        process.exit()
+      } else {
+        gatherInput();
+      }
+    })
+    .catch(console.error);
 };
 
 // Create an array of questions for user input
 const gatherInput = () => {
   prompt([
     {
-      type: 'input',
-      name: 'title',
-      message: 'What is the project title?',
-    },
-    {
-      name: 'license',
-      message: 'Select a license for this project:',
+      type: "form",
+      name: "contact",
+      message: "Please provide your contact info-",
+      hint: "(use the <down arrow> to navigate and press <enter> when done)",
       choices: [
-        { 'None': 'None' },
-        { 'Apache License 2.0': 'Apache-2.0' },
-        { 'GNU General Public License v3.0': 'GPL-3.0' },
-        { 'MIT License': 'MIT' },
-        { 'BSD 2-Clause "Simplified" License': 'BSD-2' },
-        { 'BSD 3-Clause "New" or "Revised" License': 'BSD-3' },
-        { 'Boost Software License 1.0': 'BSL-1.0' },
-        { 'Creative Commons Zero v1.0 Universal': 'CC0-1.0' },
-        { 'Eclipse Public License 2.0': 'EPL-2.0' },
-        { 'GNU Affero General Public License v3.0': 'AGPL-3.0' },
-        { 'GNU General Public License v2.0': 'GPL-2.0' },
-        { 'GNU Lesser General Public License v2.1': 'LGPL-2.1' },
-        { 'Mozilla Public License 2.0': 'MPL-2.0' },
-        { 'The Unlicense': 'Unlicense' }
-      ]
-    },
-    {
-      type: 'form',
-      name: 'description',
-      message: 'Please describe the project in detail > ',
-      hint: '(use the <down arrow> to navigate and press <enter> when done)'  ,
-      choices: [
-        { name: 'motivation', message: 'What your motivation?' },
-        { name: 'why', message: 'Why did you build it?' },
-        { name: 'solve', message: 'What problem(s) does it solve?' },
-        { name: 'learn', message: 'What did you learn from the build?' },
+        { name: "githubUser", message: "GitHub username:" },
+        { name: "email", message: "Email address:" },
       ],
     },
     {
-      type: 'input',
-      name: 'installation',
-      message: 'What are the steps required to install your project?',
+      type: "input",
+      name: "title",
+      message: "What is the project title?",
     },
     {
-      type: 'input',
-      name: 'usage',
-      message: 'Please provide instructions for using the app:'
+      type: "form",
+      name: "description",
+      message: "Please describe the project in detail > ",
+      hint: "(use the <down arrow> to navigate and press <enter> when done)",
+      choices: [
+        { name: "motivation", message: "What your motivation?" },
+        { name: "why", message: "Why did you build it?" },
+        { name: "solve", message: "What problem(s) does it solve?" },
+        { name: "learn", message: "What did you learn from the build?" },
+      ],
     },
     {
-      type: 'toggle',
-      name: 'isAttribution',
-      message: 'Did you use any third-party assets that require attribution?',
-      enabled: 'Yep',
-      disabled: 'Nope',
+      type: "input",
+      name: "installation",
+      message: "What are the steps required to install your project?",
     },
     {
-      type: 'toggle',
-      name: 'isTutorial',
-      message: 'Did you follow any tutorials that should receive credit?',
-      enabled: 'Yep',
-      disabled: 'Nope',
+      type: "input",
+      name: "usage",
+      message: "Please provide information for using the app:",
+    },
+    {
+      type: "input",
+      name: "contribute",
+      message: "Can you share contribution guidelines?",
+    },
+    {
+      type: "input",
+      name: "test",
+      message: "Can you provide test instructions for using the app?",
+    },
+    {
+      type: "input",
+      name: "attribution",
+      message: "Please provide a link list of third-party assets that require attribution, separated by comma:",
+    },
+    {
+      type: "input",
+      name: "tutorial",
+      message: "Please provide a link list of any tutorials you followed, separated by comma:",
+    },
+    {
+      type: "select",
+      name: "license",
+      message: "Final question! Select a license for this project:",
+      choices: [
+        { message: "None", value: "None" },
+        { message: "Apache License 2.0", value: "Apache-2.0" },
+        { message: "GNU General Public License v3.0", value: "GPL-3.0" },
+        { message: "MIT License", value: "MIT" },
+        { message: 'BSD 2-Clause "Simplified" License', value: "BSD-2" },
+        { message: 'BSD 3-Clause "New" or "Revised" License', value: "BSD-3" },
+        { message: "Boost Software License 1.0", value: "BSL-1.0" },
+        { message: "Creative Commons Zero v1.0 Universal", value: "CC0-1.0" },
+        { message: "Eclipse Public License 2.0", value: "EPL-2.0" },
+        { message: "GNU Affero General Public License v3.0", value: "AGPL-3.0" },
+        { message: "GNU General Public License v2.0", value: "GPL-2.0" },
+        { message: "GNU Lesser General Public License v2.1", value: "LGPL-2.1" },
+        { message: "Mozilla Public License 2.0", value: "MPL-2.0" },
+        { message: "The Unlicense", value: "Unlicense" }
+      ]
     }
   ])
-  .then((answer) => {
-    console.log(answer);
-  })
-  .catch(console.error);
+    .then((answers) => {
+      const readmeContent = generateReadme(answers);
+
+      writeFile('README.md', readmeContent, (err) =>
+        err ? console.log(err) : console.log('Successfully created README.md!')
+      );
+    })
+    .catch(console.error);
 };
-
-// prompt.run().then((value) => {
-//   const readmeContent = generateReadme(value);
-
-//   writeFile('README.md', readmeContent, (err) =>
-//     err ? console.log(err) : console.log('Successfully created README.md!')
-//   );
-// });
-
-// TODO: Create a function to write README file
-// function writeToFile(readmeContent) {
-//     writeFile('README.md', readmeContent, (err) =>
-//         err ? console.log(err) : console.log('Successfully created README.md!')
-//       );
-// }
 
 // Function call to initialize app
 intro();
