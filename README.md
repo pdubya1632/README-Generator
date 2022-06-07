@@ -10,4 +10,4 @@ Node.js
 <a href="https://github.com/yeoman/yosay">Yosay</a>
 
 ## Page Link
-<a href="https://pdubya1632.github.io/UWCB-07-Homework/index.html">https://pdubya1632.github.io/UWCB-06-Homework/index.html</a>
+<a href="https://pdubya1632.github.io/UWCB-07-Homework/index.html">https://pdubya1632.github.io/UWCB-07-Homework/index.html</a>
