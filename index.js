@@ -98,41 +98,13 @@ const gatherInput = () => {
       name: 'license',
       message: 'Final question! Select a license for this project:',
       choices: [
-        { message: 'None', value: 'None' },
-        { message: 'Apache License 2.0', value: 'Apache-2.0' },
-        {
-          message: 'GNU General Public License v3.0',
-          value: 'GPL-3.0',
-        },
-        { message: 'MIT License', value: 'MIT' },
-        {
-          message: 'BSD 2-Clause "Simplified" License',
-          value: 'BSD-2',
-        },
-        {
-          message: 'BSD 3-Clause "New" or "Revised" License',
-          value: 'BSD-3',
-        },
-        { message: 'Boost Software License 1.0', value: 'BSL-1.0' },
-        {
-          message: 'Creative Commons Zero v1.0 Universal',
-          value: 'CC0-1.0',
-        },
-        { message: 'Eclipse Public License 2.0', value: 'EPL-2.0' },
-        {
-          message: 'GNU Affero General Public License v3.0',
-          value: 'AGPL-3.0',
-        },
-        {
-          message: 'GNU General Public License v2.0',
-          value: 'GPL-2.0',
-        },
-        {
-          message: 'GNU Lesser General Public License v2.1',
-          value: 'LGPL-2.1',
-        },
-        { message: 'Mozilla Public License 2.0', value: 'MPL-2.0' },
-        { message: 'The Unlicense', value: 'Unlicense' },
+        'Apache',
+        'Academic',
+        'GNU',
+        'ISC',
+        'MIT',
+        'Mozilla',
+        'Open',
       ],
     },
   ])
