@@ -51,7 +51,7 @@ Packages used in this app: ${attribution}<br />
 Tutorials followed when creating this app: ${tutorial}
 
 # Questions?
-Find me on GitHub: [${contact.githubUser}](${contact.githubUser})<br />
+Find me on GitHub: [${contact.githubUser}](https://github.com/${contact.githubUser})<br />
 Email me at [${contact.email}](mailto:${contact.email})
 `;
 };
