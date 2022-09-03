@@ -2,7 +2,7 @@ const { prompt } = require('enquirer');
 const yosay = require('yosay');
 const { writeFile } = require('fs');
 
-const { generateReadme } = require('./utils/generateReadme');
+const generateReadme = require('./utils/generateReadme');
 
 // Create a function to initialize app
 const intro = () => {
@@ -39,6 +39,7 @@ const gatherInput = () => {
         { name: 'githubUser', message: 'GitHub username:' },
         { name: 'email', message: 'Email address:' },
       ],
+      required: true,
     },
     {
       type: 'input',
