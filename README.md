@@ -1,4 +1,4 @@
-# UWCB-07-Homework
+# README Generator
 UW Coding Bootcamp : Homework 07
 
 ## Description
