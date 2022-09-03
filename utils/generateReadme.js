@@ -47,8 +47,8 @@ const generateReadme = ({
     ${test}
 
     # Resources & Inspiration
-    ${attribution}<br />
-    ${tutorial}
+    Packages used in this app: ${attribution}<br />
+    Tutorials followed when creating this app: ${tutorial}
 
     # Questions?
     Find me on GitHub: [${contact.githubUser}](${contact.githubUser})<br />
